@@ -1,0 +1,11 @@
+package ru.job4j.articles.service.generator;
+
+import ru.job4j.articles.model.Article;
+import ru.job4j.articles.model.Word;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+
+public interface ArticleGenerator {
+    WeakReference<Article> generate(List<WeakReference<Word>> words);
+}
