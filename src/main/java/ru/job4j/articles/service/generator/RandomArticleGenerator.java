@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class RandomArticleGenerator implements ArticleGenerator {
     @Override
-    public WeakReference<Article> generate(List<WeakReference<Word>> words) {
+    public Article generate(List<WeakReference<Word>> words) {
         var wordsCopy = new ArrayList<>(words);
         Collections.shuffle(wordsCopy);
         var content = wordsCopy.stream()
@@ -23,6 +23,6 @@ public class RandomArticleGenerator implements ArticleGenerator {
                     return builder.toString();
         })
                 .collect(Collectors.joining(" "));
-        return new WeakReference<>(new Article(content));
+        return new Article(content);
     }
 }

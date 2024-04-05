@@ -7,5 +7,5 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 public interface ArticleGenerator {
-    WeakReference<Article> generate(List<WeakReference<Word>> words);
+    Article generate(List<WeakReference<Word>> words);
 }
