@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.articles.model.Word;
 
-import java.lang.ref.WeakReference;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -85,17 +84,17 @@ public class WordStore implements Store<Word>, AutoCloseable {
     }
 
     @Override
-    public List<WeakReference<Word>> findAll() {
+    public List<Word> findAll() {
         LOGGER.info("Загрузка всех слов");
-        var sql = new WeakReference<>("select * from dictionary");
-        var words = new ArrayList<WeakReference<Word>>();
-        try (var statement = connection.prepareStatement(sql.get())) {
+        var sql = "select * from dictionary";
+        var words = new ArrayList<Word>();
+        try (var statement = connection.prepareStatement(sql)) {
             var selection = statement.executeQuery();
             while (selection.next()) {
-                words.add(new WeakReference<>(new Word(
+                words.add(new Word(
                         selection.getInt("id"),
                         selection.getString("word")
-                )));
+                ));
             }
         } catch (Exception e) {
             LOGGER.error("Не удалось выполнить операцию: { }", e.getCause());

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.articles.model.Article;
 
-import java.lang.ref.WeakReference;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
@@ -73,17 +72,17 @@ public class ArticleStore implements Store<Article>, AutoCloseable {
     }
 
     @Override
-    public List<WeakReference<Article>> findAll() {
+    public List<Article> findAll() {
         LOGGER.info("Загрузка всех статей");
         var sql = "select * from articles";
-        var articles = new ArrayList<WeakReference<Article>>();
+        var articles = new ArrayList<Article>();
         try (var statement = connection.prepareStatement(sql)) {
             var selection = statement.executeQuery();
             while (selection.next()) {
-                articles.add(new WeakReference<>(new Article(
+                articles.add(new Article(
                         selection.getInt("id"),
                         selection.getString("text")
-                )));
+                ));
             }
         } catch (Exception e) {
             LOGGER.error("Не удалось выполнить операцию: { }", e.getCause());
